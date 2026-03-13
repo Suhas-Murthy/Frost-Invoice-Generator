@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frost Air Service | Professional Tax Invoice Generator</title>
+    <meta name="description"
+        content="Generate professional tax invoices for AC and Refrigeration services. Real-time preview, automatic GST calculations, and print-ready formats.">
+    <meta name="keywords" content="Invoice Generator, Tax Invoice, GST Calculator, Frost Air Service, HVAC Invoice">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Editor Section -->
+        <aside class="editor-section">
+            <header class="editor-header">
+                <div class="brand">
+                    <div class="icon-circle">
+                        <i data-lucide="snowflake"></i>
+                    </div>
+                    <div>
+                        <h1>FROST AIR</h1>
+                        <p>Invoice Generator</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="editor-content">
+                <!-- Company Details -->
+                <details open>
+                    <summary>
+                        <i data-lucide="building-2"></i>
+                        <span>Company Details</span>
+                    </summary>
+                    <div class="field-group">
+                        <input type="text" id="compName" value="FROST AIR SERVICES" placeholder="Company Name">
+                        <textarea id="compAddr"
+                            placeholder="Company Address">6, Akashdeep Bldg., Near French Bridge, Opera House, Mumbai – 400007</textarea>
+                        <input type="text" id="compGST" value="27BNEPS4838L1ZC" placeholder="GSTIN/UIN">
+                        <input type="text" id="compPAN" value="BNEPS4838L" placeholder="PAN/IT No.">
+                        <input type="text" id="compState" value="Maharashtra, Code: 27" placeholder="State Name">
+                        <input type="text" id="compContact" value="9322248933/8779859463" placeholder="Contact Nos.">
+                        <input type="text" id="compEmail" value="frostair36@gmail.com" placeholder="Email">
+                    </div>
+                </details>
+
+                <!-- Invoice Details -->
+                <details open>
+                    <summary>
+                        <i data-lucide="hash"></i>
+                        <span>Invoice Info</span>
+                    </summary>
+                    <div class="field-grid">
+                        <input type="text" id="invNo" value="FAS/468" placeholder="Invoice No.">
+                        <input type="date" id="invDate" value="2024-05-23">
+                    </div>
+                </details>
+
+                <!-- Buyer Details -->
+                <details open>
+                    <summary>
+                        <i data-lucide="user"></i>
+                        <span>Buyer (Bill To)</span>
+                    </summary>
+                    <div class="field-group">
+                        <input type="text" id="buyerName" value="Ramdas Upadyay" placeholder="Buyer Name">
+                        <textarea id="buyerAddr"
+                            placeholder="Buyer Address">17, Aristocrat Building, Nr. Yoga Institute, Prabhat Colony, Santacruz East. Mumbai-400029.</textarea>
+                        <input type="text" id="buyerState" value="Maharashtra" placeholder="State Name">
+                    </div>
+                </details>
+
+                <!-- Services/Items -->
+                <details open>
+                    <summary>
+                        <i data-lucide="shopping-cart"></i>
+                        <span>Services & Items</span>
+                    </summary>
+                    <div id="itemsList" class="items-list">
+                        <!-- Items will be injected here -->
+                    </div>
+                    <button id="addItemBtn" class="secondary-btn">
+                        <i data-lucide="plus"></i>
+                        <span>Add Service Row</span>
+                    </button>
+                </details>
+
+                <!-- Bank Details -->
+                <details>
+                    <summary>
+                        <i data-lucide="landmark"></i>
+                        <span>Bank Details</span>
+                    </summary>
+                    <div class="field-group">
+                        <input type="text" id="bankName" value="BANK OF INDIA" placeholder="Bank Name">
+                        <input type="text" id="bankAcc" value="000220110000431" placeholder="Account Number">
+                        <input type="text" id="bankIFSC" value="BKID0000002" placeholder="IFSC Code">
+                        <input type="text" id="bankBranch" value="Andheri West" placeholder="Branch">
+                    </div>
+                </details>
+            </div>
+        </aside>
+
+        <!-- Preview Section -->
+        <main class="preview-section">
+            <div id="invoice-preview" class="invoice-container">
+                <!-- The actual invoice layout will be here -->
+                <div class="invoice-paper" id="invoice-paper">
+                    <h1 class="invoice-title">Tax Invoice</h1>
+
+                    <div class="invoice-header">
+                        <div class="company-col">
+                            <h2 id="viewCompName"></h2>
+                            <p class="subtitle">AIR-CONDITION & REFRIGERATION ENGINEERS</p>
+                            <p id="viewCompAddr" class="address-text"></p>
+                            <div class="meta-info">
+                                <div><span>GSTIN/UIN</span>: <span id="viewCompGST"></span></div>
+                                <div><span>PAN/IT No.</span>: <span id="viewCompPAN"></span></div>
+                                <div><span>State Name</span>: <span id="viewCompState"></span></div>
+                                <div><span>Contact Nos.</span>: <span id="viewCompContact"></span></div>
+                                <div><span>Email</span>: <span id="viewCompEmail"></span></div>
+                            </div>
+                        </div>
+                        <div class="details-col">
+                            <div class="inv-meta-box">
+                                <div class="meta-row">
+                                    <div class="meta-cell">
+                                        <label>Invoice No:</label>
+                                        <strong id="viewInvNo"></strong>
+                                    </div>
+                                    <div class="meta-cell">
+                                        <label>Dated</label>
+                                        <strong id="viewInvDate"></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buyer-box">
+                                <label>To,</label>
+                                <div class="buyer-info">
+                                    <strong id="viewBuyerName"></strong>
+                                    <p id="viewBuyerAddr"></p>
+                                    <p>State Name: <span id="viewBuyerState"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="main-table">
+                        <thead>
+                            <tr>
+                                <th width="5%">Sr.</th>
+                                <th width="45%">Description of Services</th>
+                                <th width="10%">HSN/SAC</th>
+                                <th width="8%">Qty</th>
+                                <th width="12%">Rate</th>
+                                <th width="8%">per</th>
+                                <th width="12%">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="viewItemsBody">
+                            <!-- Items rows -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" rowspan="4" class="empty-cell"></td>
+                                <td class="label-cell"></td>
+                                <td class="value-cell" id="viewSubtotal"></td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">CGST @ 9%</td>
+                                <td class="value-cell" id="viewCGST"></td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">SGST @ 9%</td>
+                                <td class="value-cell" id="viewSGST"></td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Round Off</td>
+                                <td class="value-cell" id="viewRoundOff"></td>
+                            </tr>
+                            <tr class="total-row">
+                                <td colspan="3" class="total-label-cell">Total</td>
+                                <td id="viewTotalQty"></td>
+                                <td colspan="2"></td>
+                                <td id="viewGrandTotal"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div class="total-words">
+                        Total Invoice Value (in words): <strong id="viewGrandTotalWords"></strong>
+                        <span class="eoe">E & OE</span>
+                    </div>
+
+                    <table class="tax-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">HSN/SAC</th>
+                                <th rowspan="2">Taxable value</th>
+                                <th colspan="2">Central Tax</th>
+                                <th colspan="2">State Tax</th>
+                                <th rowspan="2">Total Tax Amount</th>
+                            </tr>
+                            <tr>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="viewTaxBody">
+                            <!-- Tax rows -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-tax-row">
+                                <td style="text-align: right;">Total</td>
+                                <td id="viewTaxableTotal"></td>
+                                <td></td>
+                                <td id="viewCentralTaxTotal"></td>
+                                <td></td>
+                                <td id="viewStateTaxTotal"></td>
+                                <td id="viewTaxTotal"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div class="tax-words">
+                        Tax Amount (in words): <strong id="viewTaxTotalWords"></strong>
+                    </div>
+
+                    <div class="bank-details-section">
+                        <strong>Company's Bank Details:</strong>
+                        <div class="bank-grid">
+                            <span>Bank Name</span>: <span id="viewBankName"></span>
+                            <span>Account Number</span>: <span id="viewBankAcc"></span>
+                            <span>IFSC Code</span>: <span id="viewBankIFSC"></span>
+                            <span>Branch</span>: <span id="viewBankBranch"></span>
+                        </div>
+                    </div>
+
+                    <div class="footer-section">
+                        <div class="declaration">
+                            <strong>Description</strong>
+                            <p>We declare that this invoice shows the actual price of the goods described and that all
+                                particulars are true and correct.</p>
+                        </div>
+                        <div class="signature">
+                            <p>For <strong>FROST AIR SERVICES</strong></p>
+                            <div class="sig-space"></div>
+                            <p>Authorised Signatory</p>
+                        </div>
+                    </div>
+
+                    <div class="bottom-notes">
+                        <p>SUBJECT TO MUMBAI JURISDICTION</p>
+                        <p>This is computer generated Invoice</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div class="floating-actions">
+            <button id="printBtnDesktop" class="fab-btn">
+                <i data-lucide="printer"></i>
+                <span>Export to PDF</span>
+            </button>
+        </div>
+
+        <script src="script.js"></script>
+        <script>
+            lucide.createIcons();
+        </script>
+</body>
+
+</html>
